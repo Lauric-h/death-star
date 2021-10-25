@@ -1,6 +1,7 @@
 package com.springmsa.deathstar.controller.vehicles;
 
 import com.springmsa.deathstar.dao.BookingDao;
+import com.springmsa.deathstar.httprequest.RequestBuilder;
 import com.springmsa.deathstar.model.Booking;
 import com.springmsa.deathstar.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,19 @@ public class VehicleController {
     @PostMapping(value = "/api/bookings/vehicles")
     public ArrayList<Vehicle> fetchAvailableVehicles(@RequestBody Map<String, Object> rq) {
         // Call to api vehicle to get all vehicles
-        UriComponents uriComponents = UriComponentsBuilder.newInstance()
-                .scheme("http").host(VEHICLE_SERVER).path("/type").build();
+//        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+//                .scheme("http").host(VEHICLE_SERVER).path("/type").build();
+//
+//        String urlTemplate = UriComponentsBuilder.fromHttpUrl(uriComponents.toUriString())
+//                .queryParam("type", rq.get("type"))
+//                .encode()
+//                .toUriString();
 
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl(uriComponents.toUriString())
-                .queryParam("type", rq.get("type"))
-                .encode()
-                .toUriString();
+        String request = RequestBuilder.buildUriWithParam(
+                RequestBuilder.buildUri(VEHICLE_SERVER, "/type"),
+                "type",
+                rq.get("type"));
+
 
         // Get start and end dates to fetch vehicles currently booked
         LocalDate queryStartDate = LocalDate.parse((CharSequence) rq.get("start"));
@@ -49,7 +56,7 @@ public class VehicleController {
 
         System.out.println(bookingList);
 
-        ResponseEntity<Vehicle[]> response = restTemplate.getForEntity(urlTemplate, Vehicle[].class);
+        ResponseEntity<Vehicle[]> response = restTemplate.getForEntity(request, Vehicle[].class);
         Vehicle[] vehicleList = response.getBody();
         assert vehicleList != null;
 
