@@ -25,6 +25,7 @@ public class VehicleController {
     // post /api/bookings/vehicles -> calls vehicles
     @PostMapping(value = "/api/bookings/vehicles")
     public ResponseEntity<Vehicle[]> fetchAvailableVehicles(@RequestBody Map<String, Object> rq) {
+        // Call to api vehicle to get all vehicles
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host(VEHICLE_SERVER).path("/type").build();
 
@@ -32,6 +33,13 @@ public class VehicleController {
                 .queryParam("type", rq.get("type"))
                 .encode()
                 .toUriString();
+
+        // Get start and end dates to fetch vehicles currently booked
+
+
+        // Exclude vehicules not available
+
+        // return list
 
         return restTemplate.getForEntity(urlTemplate, Vehicle[].class);
     }
