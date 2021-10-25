@@ -1,10 +1,13 @@
 package com.springmsa.deathstar.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -21,10 +24,12 @@ public class Booking {
     private int clientId;
 
     @NotBlank
-    private Date startDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate startDate;
 
     @NotBlank
-    private Date endDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate endDate;
 
     public Booking(){};
 
@@ -52,19 +57,19 @@ public class Booking {
         this.clientId = clientId;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
