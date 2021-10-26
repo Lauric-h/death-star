@@ -65,6 +65,7 @@ public class VehicleController {
                     content = @Content)})
     @PostMapping(value = "/api/bookings/book")
     public Object fetchAvailableVehicleById(@RequestBody Map<String, Object> rq) throws JsonProcessingException {
+        String id = (String) rq.get("vehicleId");
         // get vehicle info
         String url = RequestBuilder.buildUri(VEHICLE_SERVER, "/" + id);
         Vehicle vehicle = restTemplate.getForObject(url, Vehicle.class);
