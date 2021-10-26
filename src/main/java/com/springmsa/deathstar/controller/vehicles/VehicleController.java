@@ -8,6 +8,10 @@ import com.springmsa.deathstar.httprequest.RequestBuilder;
 import com.springmsa.deathstar.model.Booking;
 import com.springmsa.deathstar.model.Vehicle;
 import com.springmsa.deathstar.model.VehicleBooking;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +37,12 @@ public class VehicleController {
     @Value("${VEHICLE_SERVER}")
     private String VEHICLE_SERVER;
 
-    // post /api/bookings/vehicles -> calls vehicles
+    @Operation(summary = "Get available vehicles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found all the available vehicles",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content)})
     @PostMapping(value = "/api/bookings/vehicles")
     public ArrayList<Vehicle> fetchAvailableVehicles(@RequestBody Map<String, Object> rq) {
         // Get start and end dates to fetch vehicles currently booked
@@ -48,7 +57,12 @@ public class VehicleController {
         return availableVehiclesHandler.getAvailableVehiclesArray(bookingList);
     }
 
-    // post /api/bookings/book -> calls vehicles
+    @Operation(summary = "Get the wanted vehicle and returns price and validates conditions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the vehicle",
+                    content = {@Content(mediaType = "application/json")}),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content)})
     @PostMapping(value = "/api/bookings/book")
     public Object fetchAvailableVehicleById(@RequestBody Map<String, Object> rq) throws JsonProcessingException {
         String id = (String) rq.get("vehicleId");
