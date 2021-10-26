@@ -65,21 +65,19 @@ public class VehicleController {
                     content = @Content)})
     @PostMapping(value = "/api/bookings/book")
     public Object fetchAvailableVehicleById(@RequestBody Map<String, Object> rq) throws JsonProcessingException {
-        String id = (String) rq.get("vehicleId");
-        int estimatedKm = (int) rq.get("estimatedKm");
-        LocalDate startDate = LocalDate.parse((CharSequence) rq.get("startDate"));
-        LocalDate endDate = LocalDate.parse((CharSequence) rq.get("endDate"));
-        LocalDate birthDate = LocalDate.parse((CharSequence) rq.get("birthDate"));
-        String licenseNumber = (String) rq.get("licenseNumber");
-        LocalDate licenseDate = LocalDate.parse((CharSequence) rq.get("licenseDate"));;
-
         // get vehicle info
         String url = RequestBuilder.buildUri(VEHICLE_SERVER, "/" + id);
         Vehicle vehicle = restTemplate.getForObject(url, Vehicle.class);
         assert vehicle != null;
 
         VehicleBooking vehicleBooking = new VehicleBooking(
-            vehicle, estimatedKm,startDate, endDate, birthDate, licenseNumber, licenseDate
+            vehicle,
+            (int) rq.get("estimatedKm"),
+            LocalDate.parse((CharSequence) rq.get("startDate")),
+            LocalDate.parse((CharSequence) rq.get("endDate")),
+            LocalDate.parse((CharSequence) rq.get("birthDate")),
+            (String) rq.get("licenseNumber"),
+            LocalDate.parse((CharSequence) rq.get("licenseDate"))
         );
 
         if (!vehicleBooking.canRentThisVehicle()) {
