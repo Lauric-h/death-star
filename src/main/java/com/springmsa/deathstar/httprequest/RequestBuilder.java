@@ -10,6 +10,8 @@ public abstract class RequestBuilder {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).path(path).build();
 
+        System.out.println(uriComponents);
+
         return uriComponents.toUriString();
     }
 
