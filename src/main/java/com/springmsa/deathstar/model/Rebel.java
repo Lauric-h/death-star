@@ -1,17 +1,19 @@
 package com.springmsa.deathstar.model;
 
-import java.util.Date;
-
+import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Rebel {
 
     private String lastName;
     private String firstName;
-    private Date birthDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate birthDate;
     private String licenseNumber;
-    private Date licenseDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate licenseDate;
 
-    public Rebel(String lastName, String firstName, Date birthDate, String licenseNumber, Date licenseDate){
+    public Rebel(String lastName, String firstName, LocalDate birthDate, String licenseNumber, LocalDate licenseDate){
 
         this.lastName = lastName;
         this.firstName = firstName;
@@ -41,11 +43,11 @@ public class Rebel {
         this.firstName = firstName;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -57,11 +59,11 @@ public class Rebel {
         this.licenseNumber = licenseNumber;
     }
 
-    public Date getLicenseDate() {
+    public LocalDate getLicenseDate() {
         return licenseDate;
     }
 
-    public void setLicenseDate(Date licenseDate) {
+    public void setLicenseDate(LocalDate licenseDate) {
         this.licenseDate = licenseDate;
     }
 }
