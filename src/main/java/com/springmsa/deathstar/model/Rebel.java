@@ -3,8 +3,14 @@ package com.springmsa.deathstar.model;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 public class Rebel {
 
+    @Id
+    @GeneratedValue
+    private int id;
     private String lastName;
     private String firstName;
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -13,8 +19,9 @@ public class Rebel {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate licenseDate;
 
-    public Rebel(String lastName, String firstName, LocalDate birthDate, String licenseNumber, LocalDate licenseDate){
+    public Rebel(int id, String lastName, String firstName, LocalDate birthDate, String licenseNumber, LocalDate licenseDate){
 
+        this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDate = birthDate;
@@ -25,6 +32,26 @@ public class Rebel {
 
     public Rebel(){
 
+    }
+
+    @Override
+    public String toString() {
+        return "Rebel{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", birthDate=" + birthDate +
+                ", licenseNumber='" + licenseNumber + '\'' +
+                ", licenseDate=" + licenseDate +
+                '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLastName() {
