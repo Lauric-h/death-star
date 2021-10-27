@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  death-star:
+    container_name: death-star
+    depends_on:
+      - database
+    build:
+      context: .
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/mydb?autoReconnect=true&useSSL=false&enabledTLSProtocols=TLSv1.2
+      SPRING_DATASOURCE_USERNAME: luc
+      SPRING_DATASOURCE_PASSWORD: Nesnoalwol74
+    networks:
+      - death-star-net
+
+  database:
+      image: mysql:5.7
+      environment:
+        MYSQL_DATABASE: mydb
+        MYSQL_USER: luc
+        MYSQL_PASSWORD: Nesnoalwol74
+        MYSQL_ROOT_PASSWORD: Nesnoalwol74
+      volumes:
+        - dbstorage:/var/lib/mysql
+      networks:
+        - death-star-net
+
+volumes:
+  dbstorage:
+networks:
+  death-star-net:
