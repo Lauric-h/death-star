@@ -21,8 +21,8 @@ public class AvailableVehiclesHandler {
 
     private String request;
     
-    @Value("${VEHICLE_SERVER}")
-    private String VEHICLE_SERVER;
+        @Value("${VEHICLE_SERVER}")
+        private String VEHICLE_SERVER;
 
     public AvailableVehiclesHandler() {}
 
