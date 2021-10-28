@@ -33,6 +33,13 @@ public class Booking {
 
     public Booking(){};
 
+    public Booking(int vehicleId, int clientId, LocalDate startDate, LocalDate endDate) {
+        this.vehicleId = vehicleId;
+        this.clientId = clientId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public int getId() {
         return id;
     }

@@ -19,20 +19,15 @@ public class Rebel {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate licenseDate;
 
-    public Rebel(int id, String lastName, String firstName, LocalDate birthDate, String licenseNumber, LocalDate licenseDate){
-
-        this.id = id;
+    public Rebel(String lastName, String firstName, LocalDate birthDate, String licenseNumber, LocalDate licenseDate){
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDate = birthDate;
         this.licenseNumber = licenseNumber;
         this.licenseDate =  licenseDate;
-
     }
 
-    public Rebel(){
-
-    }
+    public Rebel(){}
 
     @Override
     public String toString() {

@@ -17,6 +17,7 @@ public class RebelsController {
 
     @Autowired
     private RestTemplate restTemplate;
+
     @Autowired
     BookingDao bookingDao;
 
@@ -24,35 +25,30 @@ public class RebelsController {
     private String REBELS_SERVER;
 
     @PostMapping("bookings/confirmation")
-    public Rebel addBooking(@RequestBody Map<String, Object> rebelInfo){
+    public Booking addBooking(@RequestBody Map<String, Object> rebelInfo){
+        // Creates new rebel
+        Rebel queryRebel = new Rebel(
+            (String) rebelInfo.get("lastName"),
+            (String) rebelInfo.get("firstName"),
+            LocalDate.parse((CharSequence) rebelInfo.get("birthDate")),
+            (String) rebelInfo.get("licenseNumber"),
+            LocalDate.parse((CharSequence) rebelInfo.get("licenseDate"))
+        );
 
+        // Post new rebel to Rebels API
+        Rebel postRebel = new RestTemplate().postForObject(REBELS_SERVER, queryRebel, Rebel.class);
+        assert postRebel != null;
 
-        Rebel rebel = new Rebel();
-        String firstName = (String) rebelInfo.get("firstName");
-        rebel.setFirstName(firstName);
-        String lastName = (String) rebelInfo.get("lastName");
-        rebel.setLastName(lastName);
-        LocalDate birthDate = LocalDate.parse((CharSequence) rebelInfo.get("birthDate"));
-        rebel.setBirthDate(birthDate);
-        String licenseNumber = (String) rebelInfo.get("licenseNumber");
-        rebel.setLicenseNumber(licenseNumber);
-        LocalDate licenseDate = LocalDate.parse((CharSequence) rebelInfo.get("licenseDate")) ;
-        rebel.setLicenseDate(licenseDate);
-
-        Rebel rebel1 = new RestTemplate().postForObject(REBELS_SERVER, rebel, Rebel.class);
-        System.out.println(rebel1);
-        Booking booking = new Booking();
-        int vehicleId = (int) rebelInfo.get("vehicleId");
-        booking.setVehicleId(vehicleId);
-        LocalDate startDate = LocalDate.parse((CharSequence) rebelInfo.get("startDate"));
-        booking.setStartDate(startDate);
-        LocalDate endDate = LocalDate.parse((CharSequence) rebelInfo.get("endDate"));
-        booking.setEndDate(endDate);
-        assert rebel1 != null;
-        booking.setClientId(rebel1.getId());
+        // Creates new Booking
+        Booking booking = new Booking(
+                (int) rebelInfo.get("vehicleId"),
+                postRebel.getId(),
+                LocalDate.parse((CharSequence) rebelInfo.get("startDate")),
+                LocalDate.parse((CharSequence) rebelInfo.get("endDate"))
+        );
         bookingDao.save(booking);
 
-        return null;
+        return booking;
     }
 
 }
