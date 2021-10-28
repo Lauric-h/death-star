@@ -4,25 +4,28 @@ services:
   death-star:
     container_name: death-star
     depends_on:
-      - database
+      - death-star_database
     build:
       context: .
     ports:
-      - "8082:8082"
+      - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/mydb?autoReconnect=true&useSSL=false&enabledTLSProtocols=TLSv1.2
-      SPRING_DATASOURCE_USERNAME: luc
-      SPRING_DATASOURCE_PASSWORD: Nesnoalwol74
+      SPRING_DATASOURCE_URL: jdbc:mysql://death-star_database:3306/mydb?autoReconnect=true&useSSL=false&enabledTLSProtocols=TLSv1.2
+      SPRING_DATASOURCE_USERNAME: lauric
+      SPRING_DATASOURCE_PASSWORD: Campus06
+      VEHICLE_SERVER: roguesquadron:8081/api/vehicles
+      REBELS_SERVER: rebels:8082/api/rebels
     networks:
       - death-star-net
 
-  database:
+  death-star_database:
       image: mysql:5.7
+      container_name: death-star_database
       environment:
         MYSQL_DATABASE: mydb
-        MYSQL_USER: luc
-        MYSQL_PASSWORD: Nesnoalwol74
-        MYSQL_ROOT_PASSWORD: Nesnoalwol74
+        MYSQL_USER: lauric
+        MYSQL_PASSWORD: Campus06
+        MYSQL_ROOT_PASSWORD: Campus06
       volumes:
         - dbstorage:/var/lib/mysql
       networks:
@@ -32,3 +35,4 @@ volumes:
   dbstorage:
 networks:
   death-star-net:
+    external: true

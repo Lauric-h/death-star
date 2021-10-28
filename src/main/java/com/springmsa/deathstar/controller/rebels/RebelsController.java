@@ -4,6 +4,7 @@ import com.springmsa.deathstar.dao.BookingDao;
 import com.springmsa.deathstar.model.Booking;
 import com.springmsa.deathstar.model.Rebel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +19,9 @@ public class RebelsController {
     private RestTemplate restTemplate;
     @Autowired
     BookingDao bookingDao;
+
+    @Value(value = "${REBELS_SERVER}")
+    private String REBELS_SERVER;
 
     @PostMapping("bookings/confirmation")
     public Rebel addBooking(@RequestBody Map<String, Object> rebelInfo){
@@ -35,7 +39,7 @@ public class RebelsController {
         LocalDate licenseDate = LocalDate.parse((CharSequence) rebelInfo.get("licenseDate")) ;
         rebel.setLicenseDate(licenseDate);
 
-        Rebel rebel1 = new RestTemplate().postForObject("http://localhost:8080/api/rebels", rebel, Rebel.class);
+        Rebel rebel1 = new RestTemplate().postForObject(REBELS_SERVER, rebel, Rebel.class);
         System.out.println(rebel1);
         Booking booking = new Booking();
         int vehicleId = (int) rebelInfo.get("vehicleId");
