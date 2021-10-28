@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class AvailableVehiclesHandler {
 
     public void buildVehicleRequestWithType(Object type) {
         this.request = RequestBuilder.buildUriWithParam(
-                RequestBuilder.buildUri(VEHICLE_SERVER, "/type"),
+                RequestBuilder.buildUriWithPath(VEHICLE_SERVER, "/type"),
                 "type",
                 type);
     }

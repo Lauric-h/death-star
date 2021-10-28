@@ -3,7 +3,6 @@ package com.springmsa.deathstar.controller.vehicles;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.springmsa.deathstar.dao.BookingDao;
 import com.springmsa.deathstar.handlers.AvailableVehiclesHandler;
-import com.springmsa.deathstar.handlers.ConditionsHandler;
 import com.springmsa.deathstar.httprequest.RequestBuilder;
 import com.springmsa.deathstar.model.Booking;
 import com.springmsa.deathstar.model.Vehicle;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @RestController
@@ -67,7 +65,7 @@ public class VehicleController {
     public Object fetchAvailableVehicleById(@RequestBody Map<String, Object> rq) throws JsonProcessingException {
         int id = (int) rq.get("vehicleId");
         // get vehicle info
-        String url = RequestBuilder.buildUri(VEHICLE_SERVER, "/" + id);
+        String url = RequestBuilder.buildUriWithPath(VEHICLE_SERVER, "/" + id);
         Vehicle vehicle = restTemplate.getForObject(url, Vehicle.class);
         assert vehicle != null;
 

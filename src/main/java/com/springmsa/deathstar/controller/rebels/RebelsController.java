@@ -1,6 +1,7 @@
 package com.springmsa.deathstar.controller.rebels;
 
 import com.springmsa.deathstar.dao.BookingDao;
+import com.springmsa.deathstar.httprequest.RequestBuilder;
 import com.springmsa.deathstar.model.Booking;
 import com.springmsa.deathstar.model.Rebel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,8 @@ public class RebelsController {
         );
 
         // Post new rebel to Rebels API
-        Rebel postRebel = new RestTemplate().postForObject(REBELS_SERVER, queryRebel, Rebel.class);
+        String request = RequestBuilder.buildUri(REBELS_SERVER);
+        Rebel postRebel = new RestTemplate().postForObject(request, queryRebel, Rebel.class);
         assert postRebel != null;
 
         // Creates new Booking

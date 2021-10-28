@@ -5,8 +5,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public abstract class RequestBuilder {
 
-    public static String buildUri(String host, String path) {
-        // construct a request
+    public static String buildUriWithPath(String host, String path) {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).path(path).build();
         return uriComponents.toUriString();
@@ -17,5 +16,11 @@ public abstract class RequestBuilder {
                 .queryParam(paramName, param)
                 .encode()
                 .toUriString();
+    }
+
+    public static String buildUri(String host) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).build();
+        return uriComponents.toUriString();
     }
 }
